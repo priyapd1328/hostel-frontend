@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const socket = io("http://localhost:5000", { transports: ["websocket"] });
+const socket = io("https://hostel-backend-g7ch.onrender.com", { transports: ["websocket"] });
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -46,7 +46,7 @@ const App = () => {
   // FEATURE: Fetch specific student history
   const fetchMyHistory = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/complaints/user/${userId}`);
+      const res = await axios.get(`https://hostel-backend-g7ch.onrender.com/api/complaints/user/${userId}`);
       setMyHistory(res.data);
     } catch (err) {
       console.error("History fetch failed", err);
@@ -58,7 +58,7 @@ const App = () => {
     e.preventDefault();
     try {
       const url = authMode === 'login' ? '/api/auth/login' : '/api/auth/register';
-      const res = await axios.post(`http://localhost:5000${url}`, formData);
+      const res = await axios.post(`https://hostel-backend-g7ch.onrender.com${url}`, formData);
       
       const serverUser = res.data.user;
       
@@ -88,14 +88,14 @@ const App = () => {
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/complaints/all');
+      const res = await axios.get('https://hostel-backend-g7ch.onrender.com/api/complaints/all');
       setAllComplaints(res.data);
     } catch (err) { console.error(err); }
   };
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/complaints/stats');
+      const res = await axios.get('https://hostel-backend-g7ch.onrender.com/api/complaints/stats');
       setStats(res.data.length > 0 ? res.data : [
         { _id: 'Electrical', count: 5 },
         { _id: 'Plumbing', count: 3 },
@@ -106,7 +106,7 @@ const App = () => {
 
   const handleResolve = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/complaints/${id}/resolve`);
+      await axios.put(`https://hostel-backend-g7ch.onrender.com/api/complaints/${id}/resolve`);
       toast.success("Issue Resolved!");
       fetchAll(); 
     } catch (err) { toast.error("Failed to resolve"); }
@@ -115,7 +115,7 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/complaints/add', { 
+      const res = await axios.post('https://hostel-backend-g7ch.onrender.com/api/complaints/add', { 
         title, description, createdBy: user.id 
       });
       setPrediction(res.data.complaint);
@@ -157,7 +157,6 @@ const App = () => {
     })
   };
 
-  // --- LOGIN VIEW ---
   if (!user) {
     return (
       <div style={styles.loginWrapper}>
@@ -191,7 +190,6 @@ const App = () => {
     );
   }
 
-  // --- DASHBOARD VIEW ---
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#020617' }}>
       <ToastContainer theme="dark" />
@@ -237,7 +235,7 @@ const App = () => {
             </div>
 
             {/* STUDENT HISTORY TABLE */}
-            
+          
             <div style={{ marginTop: '50px' }}>
               <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '20px', color: '#818cf8' }}>Personal Log History</h3>
               <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
