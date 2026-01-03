@@ -5,7 +5,7 @@ const WardenDashboard = () => {
   const [complaints, setComplaints] = useState([]);
   
   // 1. Set this to your local backend for now
-  const API_URL = "http://localhost:5000"; 
+  const API_URL = "https://hostel-backend-g7ch.onrender.com"; 
 
   const fetchComplaints = async () => {
     try {
